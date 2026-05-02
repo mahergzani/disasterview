@@ -8,6 +8,7 @@
     "data": {"@id": "cr:data", "@type": "@json"},
     "dataType": {"@id": "cr:dataType", "@type": "@vocab"},
     "dct": "http://purl.org/dc/terms/",
+    "prov": "http://www.w3.org/ns/prov#",
     "examples": {"@id": "cr:examples", "@type": "@json"},
     "extract": "cr:extract",
     "field": "cr:field",
@@ -342,5 +343,31 @@
   "rai:dataLimitations": "Auto-generated annotations may lack boundary precision of manual annotation. Class imbalance across disaster types. Geographic coverage bias.",
   "rai:dataSocialImpact": "Enables development of autonomous UAV systems for faster disaster response, potentially saving lives. Risk of dual use for surveillance mitigated by CC BY 4.0 license prohibiting such use.",
   "rai:personalSensitiveInformation": "Minimal - UAV altitude (30-150m) prevents individual identification. Automated face and licence plate blurring applied to all frames.",
-  "rai:dataReleaseMaintenance": "Dataset versioned via Roboflow. Ongoing expansion via automated pipeline targeting 100,000 frames. Updates released on HuggingFace with version numbers."
+  "rai:dataReleaseMaintenance": "Dataset versioned via Roboflow. Ongoing expansion via automated pipeline targeting 100,000 frames. Updates released on HuggingFace with version numbers.",
+  "rai:hasSyntheticData": false,
+  "prov:wasDerivedFrom": [
+    {
+      "@type": "prov:Entity",
+      "@id": "https://www.youtube.com",
+      "name": "YouTube",
+      "description": "Publicly posted UAV/drone disaster footage. Source video URLs, titles, uploaders, and metadata are documented in video_provenance.csv."
+    }
+  ],
+  "prov:wasGeneratedBy": [
+    {
+      "@type": "prov:Activity",
+      "name": "Data Collection",
+      "description": "YouTube videos downloaded via yt-dlp using structured keyword queries (e.g. 'earthquake drone footage 2023'). 50 videos per disaster type targeted. Videos filtered by CLIP semantic relevance score and Laplacian blur metric. Collection period: source videos span 2015–2024."
+    },
+    {
+      "@type": "prov:Activity",
+      "name": "Data Preprocessing",
+      "description": "Videos resampled to 10 fps, scaled to 720p, re-encoded H.264 CRF23 via FFmpeg. Keyframes extracted using hybrid PySceneDetect scene-change detection + uniform sampling. Near-duplicate frames removed using DINOv2 ViT-S/14 cosine similarity threshold (0.95)."
+    },
+    {
+      "@type": "prov:Activity",
+      "name": "Data Annotation",
+      "description": "Automated pipeline: CLIP ViT-B/32 scores presence of each of 10 semantic classes per frame. LAB colorspace k-means (k=5) segments image regions. Contours of matching regions converted to COCO polygon format. Annotations uploaded to Roboflow (project: disasterview-seg). CLIP verification pass assigns confidence scores; frames below 0.7 flagged for human review. No human annotators used; inter-annotator agreement N/A."
+    }
+  ]
 }
