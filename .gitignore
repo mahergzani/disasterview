@@ -1,0 +1,18 @@
+# Video and frame data (too large for git)
+videos/
+frames/
+verified/
+review/
+weights/
+exports/
+hf_upload/
+
+# Per-video metadata thumbnails and raw info JSONs
+neurips_submission/video_metadata/
+
+# Pipeline artifacts
+*.csv
+pipeline_status.json
+__pycache__/
+*.pyc
+.env

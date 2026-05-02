@@ -1,0 +1,241 @@
+{
+  "@context": {
+    "@vocab": "https://schema.org/",
+    "cr": "http://mlcommons.org/croissant/1.0/",
+    "rai": "http://mlcommons.org/croissant/RAI/0.0/"
+  },
+  "@type": "cr:Dataset",
+  "cr:conformsTo": "http://mlcommons.org/croissant/1.0/",
+  "name": "DisasterView",
+  "description": "DisasterView is a large-scale UAV/drone aerial segmentation dataset covering four natural disaster types (earthquake, flood, tornado, wildfire). It contains 29,673 annotated frames from 774 unique videos with pixel-level polygon annotations for 10 semantic classes. Splits are video-disjoint to prevent data leakage.",
+  "url": "https://huggingface.co/datasets/mbzuai/disasterview",
+  "version": "3.0",
+  "license": "https://creativecommons.org/licenses/by/4.0/",
+  "isAccessibleForFree": true,
+  "keywords": [
+    "semantic segmentation",
+    "UAV",
+    "drone",
+    "disaster",
+    "aerial imagery",
+    "earthquake",
+    "flood",
+    "tornado",
+    "wildfire",
+    "computer vision"
+  ],
+  "creator": {
+    "@type": "Organization",
+    "name": "Mohamed bin Zayed University of Artificial Intelligence (MBZUAI)",
+    "url": "https://mbzuai.ac.ae"
+  },
+  "datePublished": "2026",
+  "inLanguage": "en",
+  "cr:distribution": [
+    {
+      "@type": "cr:FileObject",
+      "@id": "raw-frames",
+      "name": "disasterview-raw",
+      "description": "Raw JPEG frames with YOLO-seg annotation .txt files, organized by disaster type and video ID.",
+      "encodingFormat": "application/zip",
+      "contentUrl": "https://huggingface.co/datasets/mbzuai/disasterview/resolve/main/disasterview-raw.zip"
+    },
+    {
+      "@type": "cr:FileObject",
+      "@id": "coco-format",
+      "name": "disasterview-coco",
+      "description": "COCO segmentation format export.",
+      "encodingFormat": "application/zip",
+      "contentUrl": "https://huggingface.co/datasets/mbzuai/disasterview/resolve/main/disasterview-coco.zip"
+    },
+    {
+      "@type": "cr:FileObject",
+      "@id": "yolo-format",
+      "name": "disasterview-yolo",
+      "description": "YOLOv8 segmentation format export.",
+      "encodingFormat": "application/zip",
+      "contentUrl": "https://huggingface.co/datasets/mbzuai/disasterview/resolve/main/disasterview-yolo.zip"
+    },
+    {
+      "@type": "cr:FileObject",
+      "@id": "split-manifest",
+      "name": "split_manifest.json",
+      "description": "Authoritative video-disjoint train/val/test split. Use this — not Roboflow's built-in split.",
+      "encodingFormat": "application/json",
+      "contentUrl": "https://huggingface.co/datasets/mbzuai/disasterview/resolve/main/split_manifest.json"
+    },
+    {
+      "@type": "cr:FileObject",
+      "@id": "video-provenance",
+      "name": "video_provenance.csv",
+      "description": "Source video metadata: YouTube ID, title, uploader, upload date, resolution, kept/rejected status.",
+      "encodingFormat": "text/csv",
+      "contentUrl": "https://huggingface.co/datasets/mbzuai/disasterview/resolve/main/video_provenance.csv"
+    }
+  ],
+  "cr:recordSet": [
+    {
+      "@type": "cr:RecordSet",
+      "@id": "frames",
+      "name": "frames",
+      "description": "Annotated UAV video frames with segmentation labels.",
+      "cr:field": [
+        {
+          "@type": "cr:Field",
+          "@id": "frames/image",
+          "name": "image",
+          "description": "JPEG frame extracted from UAV disaster video.",
+          "dataType": "sc:ImageObject",
+          "cr:source": {
+            "cr:fileObject": {
+              "@id": "raw-frames"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "frames/annotation",
+          "name": "annotation",
+          "description": "YOLO-seg polygon annotation (class_id x1 y1 x2 y2 ...). Normalized to [0,1].",
+          "dataType": "sc:Text",
+          "cr:source": {
+            "cr:fileObject": {
+              "@id": "raw-frames"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "frames/disaster_type",
+          "name": "disaster_type",
+          "description": "Disaster category: earthquake | flood | tornado | wildfire.",
+          "dataType": "sc:Text"
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "frames/video_id",
+          "name": "video_id",
+          "description": "YouTube video ID. Frames from the same video share this ID.",
+          "dataType": "sc:Text"
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "frames/split",
+          "name": "split",
+          "description": "Video-disjoint split assignment: train | val | test. From split_manifest.json.",
+          "dataType": "sc:Text"
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "frames/clip_confidence",
+          "name": "clip_confidence",
+          "description": "CLIP verification confidence score (raw cosine similarity, range ~0.16–0.31). Frames below 0.22 are flagged.",
+          "dataType": "sc:Number"
+        }
+      ]
+    },
+    {
+      "@type": "cr:RecordSet",
+      "@id": "class-labels",
+      "name": "class_labels",
+      "description": "10 semantic segmentation classes for aerial disaster imagery.",
+      "cr:field": [
+        {
+          "@type": "cr:Field",
+          "@id": "class-labels/id",
+          "name": "id",
+          "description": "Integer class ID (0–9).",
+          "dataType": "sc:Integer"
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "class-labels/name",
+          "name": "name",
+          "description": "Class name.",
+          "dataType": "sc:Text"
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "class-labels/instance_count",
+          "name": "instance_count",
+          "description": "Total number of annotated polygon instances across all frames.",
+          "dataType": "sc:Integer"
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "class-labels/area_pct",
+          "name": "area_pct",
+          "description": "Approximate percentage of total annotated pixel area.",
+          "dataType": "sc:Number"
+        }
+      ],
+      "cr:data": [
+        {
+          "id": 0,
+          "name": "background",
+          "instance_count": 9365,
+          "area_pct": 14.4
+        },
+        {
+          "id": 1,
+          "name": "building_damaged",
+          "instance_count": 18497,
+          "area_pct": 24.0
+        },
+        {
+          "id": 2,
+          "name": "building_intact",
+          "instance_count": 3528,
+          "area_pct": 3.1
+        },
+        {
+          "id": 3,
+          "name": "debris_rubble",
+          "instance_count": 11677,
+          "area_pct": 10.8
+        },
+        {
+          "id": 4,
+          "name": "fire_smoke",
+          "instance_count": 3510,
+          "area_pct": 6.7
+        },
+        {
+          "id": 5,
+          "name": "road_blocked",
+          "instance_count": 4169,
+          "area_pct": 4.5
+        },
+        {
+          "id": 6,
+          "name": "road_clear",
+          "instance_count": 1782,
+          "area_pct": 2.4
+        },
+        {
+          "id": 7,
+          "name": "vegetation",
+          "instance_count": 3131,
+          "area_pct": 4.0
+        },
+        {
+          "id": 8,
+          "name": "vehicle",
+          "instance_count": 1810,
+          "area_pct": 2.3
+        },
+        {
+          "id": 9,
+          "name": "water_flood",
+          "instance_count": 20285,
+          "area_pct": 27.7
+        }
+      ]
+    }
+  ],
+  "rai:dataCollection": "Automated pipeline: YouTube yt-dlp download → CLIP+Laplacian quality filter → PySceneDetect keyframe extraction → DINOv2 deduplication → CLIP+k-means annotation → CLIP verification.",
+  "rai:dataCollectionType": "Web scraping of publicly available YouTube videos.",
+  "rai:dataUseCases": "Disaster response, UAV autonomy, semantic segmentation research.",
+  "rai:dataBiases": "English-language YouTube queries may under-represent disasters in non-English speaking regions. Class distribution is imbalanced: water_flood and building_damaged dominate. Tornado is over-represented (41% of frames).",
+  "rai:personalSensitiveInformation": "None collected or annotated."
+}
