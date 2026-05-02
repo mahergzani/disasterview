@@ -1,0 +1,346 @@
+{
+  "@context": {
+    "@language": "en",
+    "@vocab": "https://schema.org/",
+    "column": "cr:column",
+    "conformsTo": "dct:conformsTo",
+    "cr": "http://mlcommons.org/croissant/",
+    "data": {"@id": "cr:data", "@type": "@json"},
+    "dataType": {"@id": "cr:dataType", "@type": "@vocab"},
+    "dct": "http://purl.org/dc/terms/",
+    "examples": {"@id": "cr:examples", "@type": "@json"},
+    "extract": "cr:extract",
+    "field": "cr:field",
+    "fileObject": "cr:fileObject",
+    "fileProperty": "cr:fileProperty",
+    "fileSet": "cr:fileSet",
+    "format": "cr:format",
+    "includes": "cr:includes",
+    "isLiveDataset": "cr:isLiveDataset",
+    "jsonPath": "cr:jsonPath",
+    "key": "cr:key",
+    "md5": "cr:md5",
+    "parentField": "cr:parentField",
+    "path": "cr:path",
+    "rai": "http://mlcommons.org/croissant/RAI/1.0/",
+    "recordSet": "cr:recordSet",
+    "references": "cr:references",
+    "regex": "cr:regex",
+    "repeated": "cr:repeated",
+    "replace": "cr:replace",
+    "sc": "https://schema.org/",
+    "separator": "cr:separator",
+    "source": "cr:source",
+    "subField": "cr:subField",
+    "transform": "cr:transform",
+    "citeAs": "cr:citeAs",
+    "samplingRate": "cr:samplingRate",
+    "equivalentProperty": "cr:equivalentProperty",
+    "containedIn": "cr:containedIn"
+  },
+  "@type": "sc:Dataset",
+  "conformsTo": "http://mlcommons.org/croissant/1.0",
+  "rai:conformsTo": "http://mlcommons.org/croissant/RAI/1.0",
+  "name": "DisasterView",
+  "description": "A multi-disaster UAV video dataset for autonomous scene understanding with 32,233 annotated frames across earthquake, flood, tornado and wildfire scenarios",
+  "url": "https://huggingface.co/datasets/uav-disaster-dataset/disasterview",
+  "license": "https://creativecommons.org/licenses/by/4.0/",
+  "version": "4.0",
+  "datePublished": "2026-05-02",
+  "citation": "Anonymous Authors. DisasterView: A Multi-Disaster UAV Video Dataset for Autonomous Scene Understanding. In Proceedings of the 40th Conference on Neural Information Processing Systems (NeurIPS 2026). Under review.",
+  "citeAs": "Anonymous Authors. DisasterView v4.0. HuggingFace Datasets, 2026. https://huggingface.co/datasets/uav-disaster-dataset/disasterview",
+  "creator": [
+    {
+      "@type": "sc:Person",
+      "name": "Anonymous Authors"
+    }
+  ],
+  "isAccessibleForFree": true,
+  "keywords": [
+    "semantic segmentation",
+    "UAV",
+    "drone",
+    "disaster",
+    "aerial imagery",
+    "earthquake",
+    "flood",
+    "tornado",
+    "wildfire",
+    "computer vision",
+    "autonomous systems",
+    "disaster response",
+    "vision-language models"
+  ],
+  "inLanguage": "en",
+  "distribution": [
+    {
+      "@type": "cr:FileObject",
+      "@id": "coco-train-annotations",
+      "name": "train/_annotations.coco.json",
+      "description": "COCO segmentation annotations for the training split (polygon masks, 10 classes).",
+      "encodingFormat": "application/json",
+      "contentUrl": "https://huggingface.co/datasets/uav-disaster-dataset/disasterview/resolve/main/disasterview-coco/train/_annotations.coco.json",
+      "sha256": "1f474ec8ff2768393e2cde3029158ffadcc4a31a7b02f9a9f6fa0b95e5604bf7"
+    },
+    {
+      "@type": "cr:FileSet",
+      "@id": "coco-train-images",
+      "name": "coco-train-images",
+      "description": "JPEG frames for the training split.",
+      "encodingFormat": "image/jpeg",
+      "containedIn": {"@id": "coco-train-annotations"},
+      "includes": "train/*.jpg"
+    },
+    {
+      "@type": "cr:FileObject",
+      "@id": "split-manifest",
+      "name": "split_manifest.json",
+      "description": "Authoritative video-disjoint train/val/test split keyed by YouTube video ID.",
+      "encodingFormat": "application/json",
+      "contentUrl": "https://huggingface.co/datasets/uav-disaster-dataset/disasterview/resolve/main/split_manifest.json",
+      "sha256": "26d35945a59a91e9f54ea8dc71332058af30f2f50a1d9c8d7f5c390597c58764"
+    },
+    {
+      "@type": "cr:FileObject",
+      "@id": "video-provenance",
+      "name": "video_provenance.csv",
+      "description": "Source video metadata: YouTube ID, title, uploader, upload date, resolution, disaster type, kept/rejected status, frame count.",
+      "encodingFormat": "text/csv",
+      "contentUrl": "https://huggingface.co/datasets/uav-disaster-dataset/disasterview/resolve/main/video_provenance.csv",
+      "sha256": "bca1dee4b75082f8304a768eae85315a17f5b28c2d26e1b95fe1ba923c7e57e3"
+    }
+  ],
+  "recordSet": [
+    {
+      "@type": "cr:RecordSet",
+      "@id": "frames",
+      "name": "frames",
+      "description": "Image metadata from the COCO training split annotations.",
+      "field": [
+        {
+          "@type": "cr:Field",
+          "@id": "frames/image_id",
+          "name": "image_id",
+          "description": "COCO image ID.",
+          "dataType": "sc:Integer",
+          "source": {
+            "fileObject": {"@id": "coco-train-annotations"},
+            "extract": {"jsonPath": "$.images[*].id"}
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "frames/file_name",
+          "name": "file_name",
+          "description": "JPEG filename for the frame.",
+          "dataType": "sc:Text",
+          "source": {
+            "fileObject": {"@id": "coco-train-annotations"},
+            "extract": {"jsonPath": "$.images[*].file_name"}
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "frames/width",
+          "name": "width",
+          "description": "Frame width in pixels.",
+          "dataType": "sc:Integer",
+          "source": {
+            "fileObject": {"@id": "coco-train-annotations"},
+            "extract": {"jsonPath": "$.images[*].width"}
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "frames/height",
+          "name": "height",
+          "description": "Frame height in pixels.",
+          "dataType": "sc:Integer",
+          "source": {
+            "fileObject": {"@id": "coco-train-annotations"},
+            "extract": {"jsonPath": "$.images[*].height"}
+          }
+        }
+      ]
+    },
+    {
+      "@type": "cr:RecordSet",
+      "@id": "coco-annotations",
+      "name": "coco_annotations",
+      "description": "Polygon segmentation annotations from the COCO training split.",
+      "field": [
+        {
+          "@type": "cr:Field",
+          "@id": "coco-annotations/id",
+          "name": "id",
+          "description": "Annotation ID.",
+          "dataType": "sc:Integer",
+          "source": {
+            "fileObject": {"@id": "coco-train-annotations"},
+            "extract": {"jsonPath": "$.annotations[*].id"}
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "coco-annotations/image_id",
+          "name": "image_id",
+          "description": "COCO image ID this annotation belongs to.",
+          "dataType": "sc:Integer",
+          "source": {
+            "fileObject": {"@id": "coco-train-annotations"},
+            "extract": {"jsonPath": "$.annotations[*].image_id"}
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "coco-annotations/category_id",
+          "name": "category_id",
+          "description": "Semantic class ID (0-9).",
+          "dataType": "sc:Integer",
+          "source": {
+            "fileObject": {"@id": "coco-train-annotations"},
+            "extract": {"jsonPath": "$.annotations[*].category_id"}
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "coco-annotations/area",
+          "name": "area",
+          "description": "Pixel area of the annotation polygon.",
+          "dataType": "sc:Float",
+          "source": {
+            "fileObject": {"@id": "coco-train-annotations"},
+            "extract": {"jsonPath": "$.annotations[*].area"}
+          }
+        }
+      ]
+    },
+    {
+      "@type": "cr:RecordSet",
+      "@id": "video-metadata",
+      "name": "video_metadata",
+      "description": "Source video provenance: one row per downloaded YouTube video.",
+      "field": [
+        {
+          "@type": "cr:Field",
+          "@id": "video-metadata/video_id",
+          "name": "video_id",
+          "description": "YouTube video ID.",
+          "dataType": "sc:Text",
+          "source": {
+            "fileObject": {"@id": "video-provenance"},
+            "extract": {"column": "video_id"}
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "video-metadata/disaster_type",
+          "name": "disaster_type",
+          "description": "Disaster category: earthquake | flood | tornado | wildfire.",
+          "dataType": "sc:Text",
+          "source": {
+            "fileObject": {"@id": "video-provenance"},
+            "extract": {"column": "disaster_type"}
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "video-metadata/kept",
+          "name": "kept",
+          "description": "Whether the video passed quality filtering (yes/no).",
+          "dataType": "sc:Text",
+          "source": {
+            "fileObject": {"@id": "video-provenance"},
+            "extract": {"column": "kept"}
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "video-metadata/frame_count",
+          "name": "frame_count",
+          "description": "Number of keyframes extracted from this video.",
+          "dataType": "sc:Integer",
+          "source": {
+            "fileObject": {"@id": "video-provenance"},
+            "extract": {"column": "frame_count"}
+          }
+        }
+      ]
+    },
+    {
+      "@type": "cr:RecordSet",
+      "@id": "class-labels",
+      "name": "class_labels",
+      "description": "10 semantic segmentation classes for aerial disaster imagery.",
+      "field": [
+        {
+          "@type": "cr:Field",
+          "@id": "class-labels/id",
+          "name": "id",
+          "description": "Integer class ID (0-9).",
+          "dataType": "sc:Integer"
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "class-labels/name",
+          "name": "name",
+          "description": "Machine-readable class name.",
+          "dataType": "sc:Text"
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "class-labels/display_name",
+          "name": "display_name",
+          "description": "Human-readable class label used in COCO annotation files.",
+          "dataType": "sc:Text"
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "class-labels/instance_count",
+          "name": "instance_count",
+          "description": "Total annotated polygon instances across all frames.",
+          "dataType": "sc:Integer"
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "class-labels/area_pct",
+          "name": "area_pct",
+          "description": "Approximate percentage of total annotated pixel area.",
+          "dataType": "sc:Float"
+        }
+      ],
+      "data": [
+        {"class-labels/id": 0, "class-labels/name": "background",       "class-labels/display_name": "background sky ground",               "class-labels/instance_count": 9365,  "class-labels/area_pct": 14.4},
+        {"class-labels/id": 1, "class-labels/name": "building_damaged", "class-labels/display_name": "damaged building collapsed structure", "class-labels/instance_count": 18497, "class-labels/area_pct": 24.0},
+        {"class-labels/id": 2, "class-labels/name": "building_intact",  "class-labels/display_name": "intact building standing structure",  "class-labels/instance_count": 3528,  "class-labels/area_pct": 3.1},
+        {"class-labels/id": 3, "class-labels/name": "debris_rubble",    "class-labels/display_name": "debris rubble wreckage",              "class-labels/instance_count": 11677, "class-labels/area_pct": 10.8},
+        {"class-labels/id": 4, "class-labels/name": "fire_smoke",       "class-labels/display_name": "fire smoke flames",                   "class-labels/instance_count": 3510,  "class-labels/area_pct": 6.7},
+        {"class-labels/id": 5, "class-labels/name": "road_blocked",     "class-labels/display_name": "blocked road obstructed path",        "class-labels/instance_count": 4169,  "class-labels/area_pct": 4.5},
+        {"class-labels/id": 6, "class-labels/name": "road_clear",       "class-labels/display_name": "clear road open path",                "class-labels/instance_count": 1782,  "class-labels/area_pct": 2.4},
+        {"class-labels/id": 7, "class-labels/name": "vegetation",       "class-labels/display_name": "vegetation trees plants",             "class-labels/instance_count": 3131,  "class-labels/area_pct": 4.0},
+        {"class-labels/id": 8, "class-labels/name": "vehicle",          "class-labels/display_name": "vehicle car truck",                   "class-labels/instance_count": 1810,  "class-labels/area_pct": 2.3},
+        {"class-labels/id": 9, "class-labels/name": "water_flood",      "class-labels/display_name": "flood water inundation",              "class-labels/instance_count": 20285, "class-labels/area_pct": 27.7}
+      ]
+    }
+  ],
+  "rai:dataCollection": "Publicly available UAV drone footage collected from YouTube using yt-dlp with structured keyword queries targeting four disaster categories",
+  "rai:dataCollectionType": "Web scraping of publicly posted videos",
+  "rai:dataCollectionTimeframe": "Source videos span disaster events from 2015 to 2024",
+  "rai:dataCollectionMissingData": "Videos unavailable due to deletion or copyright restrictions were skipped. Geographic regions with low drone adoption are underrepresented.",
+  "rai:dataCollectionRawData": "Raw YouTube videos downloaded via yt-dlp, stored temporarily for frame extraction then deleted. Metadata .info.json sidecar files retained for provenance.",
+  "rai:dataImputationProtocol": "No imputation applied. Frames failing quality thresholds were excluded.",
+  "rai:dataPreprocessingProtocol": "Videos resampled to 10fps, scaled to 720p, re-encoded H.264 CRF23 via FFmpeg. Frames extracted using hybrid PySceneDetect + uniform sampling. DINOv2 deduplication applied.",
+  "rai:dataManipulationProtocol": "No augmentation applied. Dataset designed to mimic UAV live stream conditions.",
+  "rai:dataAnnotationProtocol": "CLIP+k-means automated segmentation: CLIP ViT-B/32 scores class presence, LAB colorspace k-means (k=5) partitions regions, contours become polygons. Frames below 0.7 confidence flagged for review.",
+  "rai:dataAnnotationPlatform": "Roboflow (project: disasterview-seg)",
+  "rai:dataAnnotationAnalysis": "99.7% annotation coverage. 90.5% pass CLIP quality verification. 9.5% flagged for human review.",
+  "rai:annotationsPerItem": "1 segmentation mask per frame covering all present classes",
+  "rai:annotatorDemographics": "Automated annotation pipeline - no human annotators",
+  "rai:machineAnnotationTools": "CLIP ViT-B/32, DINOv2 ViT-S/14, k-means clustering (scikit-learn), Roboflow SAM-based quality verification",
+  "rai:dataBiases": "Geographic bias toward North America, Europe, East Asia due to YouTube drone adoption patterns. Tornado over-represented (334 videos) vs earthquake (80 videos) due to footage availability.",
+  "rai:dataUseCases": "Semantic segmentation for disaster response, agentic UAV scene understanding, vision-language model benchmarking, cross-disaster transfer learning",
+  "rai:dataLimitations": "Auto-generated annotations may lack boundary precision of manual annotation. Class imbalance across disaster types. Geographic coverage bias.",
+  "rai:dataSocialImpact": "Enables development of autonomous UAV systems for faster disaster response, potentially saving lives. Risk of dual use for surveillance mitigated by CC BY 4.0 license prohibiting such use.",
+  "rai:personalSensitiveInformation": "Minimal - UAV altitude (30-150m) prevents individual identification. Automated face and licence plate blurring applied to all frames.",
+  "rai:dataReleaseMaintenance": "Dataset versioned via Roboflow. Ongoing expansion via automated pipeline targeting 100,000 frames. Updates released on HuggingFace with version numbers."
+}
